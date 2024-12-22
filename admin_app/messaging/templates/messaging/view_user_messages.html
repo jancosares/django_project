@@ -1,5 +1,4 @@
 {% load static %}
-
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -23,46 +22,53 @@
         color: #333; /* Dark gray text for general text */
       }
 
-      /* Navbar styling */
-      nav {
-        background-color: #000; /* Black navbar */
-        color: #333; /* Dark gray text for navbar items */
-        padding: 10px 20px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
+      /* Sidebar styles */
+      .sidebar {
+        height: 100%;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 250px;
+        background-color: #343a40;
+        color: #fff;
+        padding-top: 20px;
+        padding-left: 10px;
       }
 
-      nav .logo {
-        font-size: 1.5em;
-        font-weight: bold;
-        color: #333; /* Dark gray logo */
+      .sidebar h3 {
+        color: white;
+        text-align: center;
+        font-size: 1.6rem;
+        margin-bottom: 30px;
       }
 
-      nav ul {
+      .sidebar ul {
         list-style: none;
-        margin: 0;
         padding: 0;
-        display: flex;
-        gap: 15px;
       }
 
-      nav ul li {
-        display: inline;
+      .sidebar ul li {
+        margin: 10px 0;
       }
 
-      nav ul li a {
+      .sidebar .nav-link {
+        color: #fff;
         text-decoration: none;
-        color: #000000; /* Orange color for links */
-        font-size: 1em;
-        padding: 5px 10px;
+        padding: 10px;
+        display: block;
+        font-size: 1.2rem;
         border-radius: 5px;
         transition: background-color 0.3s ease;
       }
 
-      nav ul li a:hover {
-        background-color: #f1f1f1; /* Light gray on hover */
-        color: #333; /* Dark text on hover for better contrast */
+      .sidebar .nav-link:hover {
+        background-color: #007bff;
+      }
+
+      /* Main Content */
+      .content {
+        margin-left: 250px;
+        padding: 40px;
       }
 
       h2 {
@@ -71,79 +77,54 @@
         margin-bottom: 20px;
       }
 
-      /* Messages list */
-      ul {
-        list-style: none;
-        padding: 0;
-        margin: 0;
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        gap: 20px;
-      }
-
-      li {
-        background-color: #fff; /* White background for messages */
-        border: 1px solid #ddd; /* Light gray border */
-        border-radius: 5px;
-        padding: 15px;
-        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+      .card {
         transition: transform 0.3s ease, background-color 0.3s ease;
-        color: #333; /* Dark gray text inside the messages */
       }
 
-      li:hover {
+      .card:hover {
         transform: translateX(5px);
         background-color: #f1f1f1; /* Light gray background on hover */
       }
 
-      li h4 {
-        margin: 0;
-        font-size: 1.1em;
-        color: #333; /* Ensure good contrast */
-      }
-
-      li strong {
-        color: #000; /* Black for strong text */
-      }
-
-      /* No messages found */
       .no-messages {
         text-align: center;
-        color: #888; /* Gray color for no messages text */
+        color: #888;
         font-size: 1.1em;
       }
 
-      /* Responsive styling */
+      /* Responsive styles */
       @media (max-width: 768px) {
-        nav ul {
-          flex-direction: column;
-          align-items: flex-start;
+        .sidebar {
+          width: 100%;
+          height: auto;
+          position: relative;
         }
 
-        nav ul li {
-          margin-bottom: 5px;
-        }
-
-        /* Messages List */
-        ul {
-          grid-template-columns: 1fr; /* Single column on smaller screens */
+        .content {
+          margin-left: 0;
         }
       }
     </style>
   </head>
   <body>
-    <!-- Navbar -->
-    <nav>
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <h3>Your Support Hub</h3>
       <ul>
-        <li><a href="{% url 'home' %}">Home</a></li>
-        <li><a href="{% url 'admin_dashboard' %}">Go to Dashboard</a></li>
-        <li><a href="{% url 'admin_logout' %}">Logout</a></li>
+        <li><a href="{% url 'home' %}" class="nav-link">Home</a></li>
+        <li><a href="{% url 'admin_dashboard' %}" class="nav-link">Go to Dashboard</a></li>
+        <li><a href="{% url 'admin_logout' %}" class="nav-link">Logout</a></li>
       </ul>
-    </nav>
+    </div>
 
-    <div class="container mt-4">
+    <!-- Main Content -->
+    <div class="content">
+      <!-- Navbar (Hidden because Sidebar replaces it) -->
+    
+      <!-- Messages Title -->
       <h2>Messages for {{ user.username }}</h2>
 
+      <!-- Display Messages -->
       {% if messages %}
       <div class="row g-3">
         {% for message in messages %}
@@ -162,7 +143,7 @@
         {% endfor %}
       </div>
       {% else %}
-      <p class="text-center text-muted">No messages found for this user.</p>
+      <p class="no-messages">No messages found for this user.</p>
       {% endif %}
     </div>
 
