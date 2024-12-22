@@ -1,0 +1,236 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>User Registration</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/@mdi/font/css/materialdesignicons.min.css"
+      rel="stylesheet"
+    />
+    <style>
+      html {
+        height: 100%;
+      }
+
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: sans-serif;
+        background: linear-gradient(#30142b, #a12727);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+      }
+
+      .login-container {
+        position: relative;
+        width: 400px;
+        padding: 40px;
+        background: rgba(0, 0, 0, 0.5);
+        border-radius: 10px;
+        box-shadow: 0 15px 25px rgba(0, 0, 0, 0.6);
+        color: #fff;
+        box-sizing: border-box;
+      }
+
+      .login-container h2 {
+        margin: 0 0 30px;
+        padding: 0;
+        text-align: center;
+        color: #f68e44;
+      }
+
+      .login-container .user-box {
+        position: relative;
+        margin-bottom: 30px;
+      }
+
+      .login-container .user-box input {
+        width: 100%;
+        padding: 10px 0;
+        font-size: 16px;
+        color: #fff;
+        background: transparent;
+        border: none;
+        border-bottom: 1px solid #fff;
+        outline: none;
+      }
+
+      .login-container .user-box label {
+        position: absolute;
+        top: 0;
+        left: 0;
+        color: #fff;
+        pointer-events: none;
+        transition: 0.5s;
+      }
+
+      .login-container .user-box input:focus ~ label,
+      .login-container .user-box input:valid ~ label {
+        top: -20px;
+        left: 0;
+        color: #f68e44;
+        font-size: 12px;
+      }
+
+      .login-container form a {
+        display: inline-block;
+        padding: 10px 20px;
+        margin-top: 20px;
+        color: #b79726;
+        text-decoration: none;
+        text-transform: uppercase;
+        font-size: 16px;
+        transition: 0.5s;
+        border-radius: 5px;
+        text-align: center;
+        width: 100%;
+      }
+
+      .login-container form a:hover {
+        background: #f49803;
+        color: #fff;
+        box-shadow: 0 0 5px #f4c803, 0 0 25px #bd9d0b, 0 0 50px #f4e403;
+      }
+
+      p a {
+        color: #f68e44;
+        text-decoration: none;
+      }
+
+      p a:hover {
+        color: #ff8243;
+        text-decoration: underline;
+      }
+
+      /* Animation for logo */
+      @keyframes logoAnimation {
+        0% {
+          transform: translateY(0);
+        }
+        50% {
+          transform: translateY(-10px);
+        }
+        100% {
+          transform: translateY(0);
+        }
+      }
+
+      /* Logo styling */
+      .logo {
+        display: block;
+        width: 100px;
+        height: auto;
+        margin: 0 auto 10px;
+        animation: logoAnimation 2s ease-in-out infinite;
+      }
+
+      span {
+        display: block;
+        text-align: center;
+        color: #fda65d;
+        font-weight: bold;
+      }
+
+      /* Form layout */
+      label {
+        color: #e26a2c;
+        font-weight: bold;
+        margin-bottom: 5px;
+        display: block;
+      }
+
+      input[type="text"],
+      input[type="password"],
+      input[type="email"] {
+        width: 100%;
+        padding: 10px 15px;
+        margin: 0 0;
+        border: 1px solid #ff8243;
+        border-radius: 5px;
+        box-sizing: border-box;
+        font-size: 1em;
+      }
+
+      button {
+        background-color: #e26a2c;
+        color: #fff;
+        border: none;
+        padding: 10px 15px;
+        cursor: pointer;
+        font-size: 1em;
+        border-radius: 5px;
+        width: 100%;
+        transition: background-color 0.3s ease;
+      }
+
+      button:hover {
+        background-color: #ff8243;
+      }
+
+      footer {
+        background-color: rgba(255, 255, 255, 0.9);
+        padding: 10px 20px;
+        text-align: center;
+        font-size: 0.9em;
+        color: #333;
+        box-shadow: 0px -2px 5px rgba(0, 0, 0, 0.2);
+      }
+    </style>
+  </head>
+  <body>
+
+    <div class="login-container">
+      <img src="{% static 'Support service with headphones. Customer Support service logo template.png' %}" alt="Logo" class="logo" />
+      <span> Your Support Hub</span>
+      <h2>Customer Registration</h2>
+      <form method="POST">
+        {% csrf_token %}
+        <div class="user-box">
+          <input type="text" name="username" required />
+          <label for="username">Username</label>
+        </div>
+        <div class="user-box">
+          <input type="email" name="email" required />
+          <label for="email">Email</label>
+        </div>
+        <div class="user-box">
+          <input type="password" name="password1" required />
+          <label for="password1">Password</label>
+        </div>
+        <div class="user-box">
+          <input type="password" name="password2" required />
+          <label for="password2">Confirm Password</label>
+        </div>
+        <button type="submit">Register</button>
+      </form>
+      <p>
+        Already have an account? <a href="{% url 'user_login' %}">Login here</a>
+      </p>
+    </div>
+
+    <script>
+      function validateForm() {
+        const username = document.querySelector("#id_username").value.trim();
+        const email = document.querySelector("#id_email").value.trim();
+        const password1 = document.querySelector("#id_password1").value.trim();
+        const password2 = document.querySelector("#id_password2").value.trim();
+
+        if (!username || !email || !password1 || !password2) {
+          alert("All fields are required. Please fill out the entire form.");
+          return false;
+        }
+
+        if (password1 !== password2) {
+          alert("Passwords do not match. Please try again.");
+          return false;
+        }
+
+        return true;
+      }
+    </script>
+  </body>
+</html>
