@@ -125,6 +125,12 @@
         color: #34495e;
         margin-bottom: 10px;
       }
+
+      /* Carousel Styles */
+      .carousel-inner img {
+        object-fit: cover;
+        height: 400px;
+      }
     </style>
   </head>
   <body>
@@ -146,14 +152,27 @@
 
     <!-- Main Content -->
     <div class="content">
-      <!-- Welcome Section -->
-      <div class="text-center mb-4">
-        <h3
-          class="fw-bold text-uppercase bg-light py-3 rounded shadow-sm"
-          style="text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2)"
-        >
-          Welcome, <i><u>{{ user.username }}</u></i>
-        </h3>
+      <!-- Carousel Section -->
+      <div id="imageCarousel" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-inner">
+          <div class="carousel-item active">
+            <img src="{% static 'pexels-photo-5453837.webp' %}" class="d-block w-100" alt="Image 1">
+          </div>
+          <div class="carousel-item">
+            <img src="{% static 'pexels-photo-7563663.webp' %}" class="d-block w-100" alt="Image 2">
+          </div>
+          <div class="carousel-item">
+            <img src="{% static 'pexels-photo-8867249.webp' %}" class="d-block w-100" alt="Image 3">
+          </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#imageCarousel" data-bs-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#imageCarousel" data-bs-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Next</span>
+        </button>
       </div>
 
       <!-- Page Description Section -->
