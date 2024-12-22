@@ -1,0 +1,107 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer Dashboard</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <style>
+        /* Custom Styles */
+        .container {
+            max-width: 900px; /* Limit the width of the container for better readability */
+            padding: 20px;
+        }
+
+        h2, h3 {
+            color: #343a40; /* Dark text color for headings */
+            font-weight: bold;
+        }
+
+        .list-group-item {
+            border: 1px solid #ddd; /* Light border to separate message items */
+        }
+
+        .list-group-item strong {
+            color: #007bff; /* Highlight usernames in blue */
+        }
+
+        .form-control {
+            border-radius: 0.25rem; /* Rounded corners for input fields */
+        }
+
+        .btn-sm {
+            padding: 0.375rem 0.75rem;
+        }
+
+        .btn-primary, .btn-outline-primary, .btn-danger {
+            width: 100%; /* Full-width buttons */
+            padding: 12px; /* Padding to make buttons look consistent */
+        }
+
+        .btn-primary:hover, .btn-outline-primary:hover {
+            opacity: 0.9; /* Button hover effect */
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem; /* Space between form elements */
+        }
+    </style>
+</head>
+<body>
+
+<div class="container mt-4">
+  <h2>Customer Dashboard</h2>
+
+  <!-- Display Users the Logged-in User Has Communicated With -->
+  <h3 class="mt-4">Users You've Communicated With</h3>
+  <ul class="list-group">
+    <p>Want to start a conversation? 
+      <a href="{% url 'send_message' %}" class="btn btn-primary btn-sm">Ask for Assistance</a>
+    </p>
+    {% for user in users %}
+      <li class="list-group-item d-flex justify-content-between align-items-center">
+        {{ user.username }} 
+        <!-- Button to Send Message to this User -->
+        <a href="{% url 'send_message_with_user' user.id %}" class="btn btn-outline-primary btn-sm">Deliver a Message</a>
+      </li>
+    {% empty %}
+      <li class="list-group-item">No users to display. Start a conversation!</li>
+    {% endfor %}
+  </ul>
+
+  <!-- Profile Section -->
+  <h3 class="mt-4">Your Profile</h3>
+  <form method="POST" action="{% url 'edit_profile' %}">
+    {% csrf_token %}
+    <div class="form-group">
+      <label for="username">Username:</label>
+      <input type="text" class="form-control" id="username" name="username" value="{{ user.username }}" required>
+    </div>
+    <div class="form-group">
+      <label for="email">Email:</label>
+      <input type="email" class="form-control" id="email" name="email" value="{{ user.email }}" required>
+    </div>
+    <div class="form-group">
+      <label for="password">New Password (Leave empty to keep current):</label>
+      <input type="password" class="form-control" id="password" name="password">
+    </div>
+    <button type="submit" class="btn btn-primary mt-3">Update Profile</button>
+  </form>
+
+  <!-- Logout Button -->
+  <a href="{% url 'user_logout' %}" class="btn btn-danger mt-3">Logout</a>
+</div>
+
+<!-- Bootstrap JS and dependencies -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</body>
+</html>
