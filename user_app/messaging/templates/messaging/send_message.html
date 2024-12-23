@@ -1,0 +1,95 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Send a Message</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <style>
+        /* Custom Styles */
+        .container {
+            max-width: 800px; /* Limit the width of the container for better readability */
+            padding: 20px;
+        }
+
+        h2 {
+            color: #343a40; /* Dark text color for heading */
+            font-weight: bold;
+        }
+
+        .form-group label {
+            font-weight: bold; /* Bold labels for clarity */
+        }
+
+        .btn-primary {
+            width: 100%; /* Full-width button */
+            padding: 10px;
+        }
+
+        .alert {
+            margin-top: 20px; /* Space between the error alert and the form */
+        }
+
+        textarea {
+            min-height: 150px; /* Ensures enough space to type the message */
+        }
+
+        .btn-primary:hover {
+            opacity: 0.9; /* Button hover effect */
+        }
+
+        .form-control {
+            border-radius: 0.25rem; /* Rounded corners for input fields */
+        }
+
+        .form-group {
+            margin-bottom: 20px; /* Space between form elements */
+        }
+    </style>
+</head>
+<body>
+
+<div class="container mt-4">
+    <h2>Send a Message</h2>
+
+    <!-- Error Message (if any) -->
+    {% if error %}
+        <div class="alert alert-danger">
+            {{ error }}
+        </div>
+    {% endif %}
+
+    <!-- Message Form -->
+    <form method="POST">
+        {% csrf_token %}
+        
+        <!-- Receiver Username -->
+        <div class="form-group">
+            <label for="receiver">Username:</label>
+            <input type="text" class="form-control" id="receiver" name="receiver" required>
+        </div>
+
+        <!-- Message Content -->
+        <div class="form-group">
+            <label for="content">Message:</label>
+            <textarea class="form-control" id="content" name="content" required></textarea>
+        </div>
+
+        <!-- Submit Button -->
+        <button type="submit" class="btn btn-primary">Send Message</button>
+    </form>
+</div>
+
+<!-- Bootstrap JS and dependencies -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</body>
+</html>

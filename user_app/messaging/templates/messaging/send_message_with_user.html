@@ -1,0 +1,92 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Send a Message</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <style>
+        /* Custom Styles */
+        .container {
+            max-width: 800px; /* Limit the width of the container for better readability */
+        }
+
+        h2, h3 {
+            color: #343a40; /* Dark text color for headings */
+            font-weight: bold;
+        }
+
+        .list-group-item {
+            border: 1px solid #ddd; /* Light border to separate message items */
+        }
+
+        .list-group-item strong {
+            color: #007bff; /* Highlight the sender's username in blue */
+        }
+
+        textarea {
+            min-height: 150px; /* Ensure the textarea is large enough for messages */
+        }
+
+        button {
+            border-radius: 0.25rem; /* Rounded corners for buttons */
+        }
+
+        button:hover {
+            opacity: 0.9; /* Slightly reduce opacity on hover */
+        }
+
+        a.btn-secondary {
+            text-decoration: none; /* Remove underline from the "Back to Dashboard" link */
+        }
+
+        a.btn-secondary:hover {
+            opacity: 0.8; /* Slightly reduce opacity on hover */
+        }
+    </style>
+</head>
+<body>
+
+<div class="container mt-4">
+  <h2>Send a Message to {{ receiver.username }}</h2>
+
+  <!-- Display Previous Messages -->
+  <h3 class="mt-4">Conversation</h3>
+  <ul class="list-group">
+    {% for msg in messages %}
+      <li class="list-group-item">
+        <strong>{{ msg.sender.username }}:</strong> {{ msg.content }} <br>
+        <small class="text-muted">{{ msg.timestamp }}</small>
+      </li>
+    {% empty %}
+      <li class="list-group-item">No messages yet. Start the conversation!</li>
+    {% endfor %}
+  </ul>
+
+  <!-- Send New Message -->
+  <form method="POST" class="mt-4">
+    {% csrf_token %}
+    <div class="form-group">
+      <label for="content">New Message:</label>
+      <textarea class="form-control" id="content" name="content" required></textarea>
+    </div>
+    <button type="submit" class="btn btn-primary mt-3">Send Message</button>
+  </form>
+
+  <!-- Button to Return to Dashboard -->
+  <a href="{% url 'user_dashboard' %}" class="btn btn-secondary mt-3">Back to Dashboard</a>
+</div>
+
+<!-- Bootstrap JS and dependencies -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</body>
+</html>
