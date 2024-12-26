@@ -85,31 +85,33 @@ def user_dashboard(request):
     })
 
 # Send Message View (User)
+# Send Message View (User)
 @login_required
 def send_message(request, user_id=None):
-    # If user_id is provided, display previous messages and a form to send a new message
     if user_id:
         try:
             receiver = User.objects.get(id=user_id)
+            # Fetch messages and order them in ascending order (oldest first)
             messages = Message.objects.filter(sender=request.user, receiver=receiver) | Message.objects.filter(sender=receiver, receiver=request.user)
-            messages = messages.order_by('-timestamp')  # Sort by most recent first
+            messages = messages.order_by('timestamp')  # Sort by timestamp in ascending order
 
             # Decrypt the message content before displaying it
             for message in messages:
                 message.content = message.get_decrypted_content()
 
         except User.DoesNotExist:
-            return redirect('user_dashboard')  # If the user doesn't exist, go back to the dashboard
+            return redirect('user_dashboard')
 
-        # Handle POST request to send a new message
         if request.method == 'POST':
             content = request.POST.get('content')
             if content:
                 message = Message(sender=request.user, receiver=receiver, content=content)
                 message.save()
-                return redirect('send_message_with_user', user_id=user_id)  # Redirect to the same page to display the new message
+                return redirect('send_message_with_user', user_id=user_id)
 
         return render(request, 'messaging/send_message_with_user.html', {'receiver': receiver, 'messages': messages})
+
+    # Similar handling for the case when no user_id is provided.
 
     # If no user_id is provided, show a form to send a message to any user
     if request.method == 'POST':
