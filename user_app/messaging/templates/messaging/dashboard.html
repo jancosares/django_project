@@ -23,12 +23,12 @@
         /* Navbar styling */
         .navbar {
             background-color: rgb(30, 151, 137); /* Navbar background */
-            padding: 0px 20px;
+            padding: 5px 20px;
         }
 
         .navbar-brand {
             color: white;
-            font-size: 1.1rem;
+            font-size: 1.5rem;
             font-weight: bold;
         }
 
@@ -65,7 +65,7 @@
         .carousel {
             width: 100%;
             max-width: 1600px;
-            height: 450px;
+            height: 550px;
             margin: 0 auto;
             margin-bottom: 1.5%;
             position: relative;
@@ -86,6 +86,11 @@
             height: 100%;
         }
 
+        .custo {
+            font-size: 2.8rem;
+            margin-top: 20px;
+        }
+
         /* Overlay styling */
         .overlay {
             position: absolute;
@@ -103,12 +108,12 @@
         }
 
         .overlay h1 {
-            font-size: 2.5rem;
+            font-size: 4rem;
             font-weight: bold;
         }
 
         .overlay p {
-            font-size: 1.2rem;
+            font-size: 1.5rem;
         }
 
         /* Footer styling */
@@ -191,21 +196,27 @@
 
 <!-- Main Content Section -->
 <div class="container">
-    <h2 class="mb-4 text-center">Customer Dashboard</h2>
+    <h2 class="custo mb-4 text-center">Customer Dashboard</h2>
 
     <!-- Users Communicated With -->
     <div class="card">
-        <div class="card-header"><i class="mdi mdi-account-multiple"></i> Users You've Communicated With</div>
-        <div class="card-body">
-            <a href="{% url 'send_message' %}" class="btn btn-primary mb-3"><i class="mdi mdi-message-outline"></i> Start a Conversation</a>
+        <div class="card-header" style="font-size: 1.25rem; padding: 15px;">
+            <i class="mdi mdi-account-multiple"></i> Users You've Communicated With
+        </div>
+        <div class="card-body" style="font-size: 1.125rem; padding: 20px;">
+            <a href="{% url 'send_message' %}" class="btn btn-primary mb-3">
+                <i class="mdi mdi-message-outline"></i> Start a Conversation
+            </a>
             <ul class="list-group">
                 {% for user in users %}
-                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <li class="list-group-item d-flex justify-content-between align-items-center" style="padding: 15px;">
                         {{ user.username }}
-                        <a href="{% url 'send_message_with_user' user.id %}" class="btn btn-outline-primary btn-sm"><i class="mdi mdi-send"></i> Send Message</a>
+                        <a href="{% url 'send_message_with_user' user.id %}" class="btn btn-outline-primary btn-sm">
+                            <i class="mdi mdi-send" style="font-size: 1.200rem"></i> Send Message
+                        </a>
                     </li>
                 {% empty %}
-                    <li class="list-group-item">No users to display. Start a conversation!</li>
+                    <li class="list-group-item" style="padding: 15px;">No users to display. Start a conversation!</li>
                 {% endfor %}
             </ul>
         </div>
@@ -213,23 +224,53 @@
 
     <!-- Profile Section -->
     <div class="card mt-4">
-        <div class="card-header"><i class="mdi mdi-account-circle"></i> Your Profile</div>
-        <div class="card-body">
+        <div class="card-header" style="font-size: 1.25rem; padding: 15px;">
+            <i class="mdi mdi-account-circle"></i> Your Profile
+        </div>
+        <div class="card-body" style="font-size: 1.125rem; padding: 20px;">
             <form method="POST" action="{% url 'edit_profile' %}">
                 {% csrf_token %}
                 <div class="form-group">
-                    <label for="username">Username:</label>
-                    <input type="text" class="form-control" id="username" name="username" value="{{ user.username }}" required>
+                    <label for="username" style="font-size: 1.125rem;">Username:</label>
+                    <input
+                        type="text"
+                        class="form-control"
+                        id="username"
+                        name="username"
+                        value="{{ user.username }}"
+                        required
+                        style="font-size: 1.125rem;"
+                    >
                 </div>
                 <div class="form-group mt-3">
-                    <label for="email">Email:</label>
-                    <input type="email" class="form-control" id="email" name="email" value="{{ user.email }}" required>
+                    <label for="email" style="font-size: 1.125rem;">Email:</label>
+                    <input
+                        type="email"
+                        class="form-control"
+                        id="email"
+                        name="email"
+                        value="{{ user.email }}"
+                        required
+                        style="font-size: 1.125rem;"
+                    >
                 </div>
                 <div class="form-group mt-3">
-                    <label for="password">New Password:</label>
-                    <input type="password" class="form-control" id="password" name="password">
+                    <label for="password" style="font-size: 1.125rem;">New Password:</label>
+                    <input
+                        type="password"
+                        class="form-control"
+                        id="password"
+                        name="password"
+                        style="font-size: 1.125rem;"
+                    >
                 </div>
-                <button type="submit" class="btn btn-primary mt-3"><i class="mdi mdi-account-edit"></i> Update Profile</button>
+                <button
+                    type="submit"
+                    class="btn btn-primary mt-3"
+                    style="font-size: 1.125rem; padding: 10px 20px;"
+                >
+                    <i class="mdi mdi-account-edit"></i> Update Profile
+                </button>
             </form>
         </div>
     </div>
