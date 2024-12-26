@@ -13,7 +13,13 @@
         margin: 0;
         padding: 0;
         font-family: sans-serif;
-        background: linear-gradient(#30142b, #6d6969);
+        background: linear-gradient(rgb(16, 164, 147), rgb(230, 255, 249)); /* Gradient background */
+      }
+
+      /* Navbar styling */
+      .navbar {
+        background-color: rgb(16, 164, 147);
+        padding: 0px 20px;
       }
 
       /* Centering the form */
@@ -22,7 +28,7 @@
         top: 50%;
         left: 50%;
         width: 400px;
-        padding: 40px;
+        padding: 30px;
         transform: translate(-50%, -50%);
         background: rgba(0, 0, 0, 0.5);
         box-sizing: border-box;
@@ -40,7 +46,7 @@
       }
 
       /* Title styling */
-      .login-box h2 {
+      .login-box h3 {
         color: #fff;
         text-align: center;
         margin-bottom: 30px;
@@ -57,7 +63,7 @@
         padding: 10px 0;
         font-size: 16px;
         color: #fff;
-        margin-bottom: 30px;
+        margin-bottom: 10px;
         border: none;
         border-bottom: 1px solid #fff;
         outline: none;
@@ -80,8 +86,8 @@
       .user-box input:valid ~ label {
         top: -20px;
         left: 0;
-        color: #4e4641;
-        font-size: 12px;
+        color: #fff;
+        font-size: 10px;
       }
 
       /* Submit button styling */
@@ -95,12 +101,15 @@
         text-transform: uppercase;
         letter-spacing: 4px;
         overflow: hidden;
-        margin-top: 40px;
+        margin-top: 20px;
         transition: 0.5s;
+        width: 100%;
+        text-align: center;
+        box-sizing: border-box;
       }
 
       a:hover {
-        background: #171717;
+        background: rgb(50, 66, 63); /* Updated hover color */
         color: #fff;
         border-radius: 5px;
         box-shadow: 0 0 5px #bcbbb5,
@@ -173,6 +182,25 @@
         50%, 100% { bottom: 100%; }
       }
 
+      /* Styling the "Don't have an account" link */
+      .login-link {
+        text-align: center;
+        margin-top: 20px;
+        color: #fff;
+        font-size: 14px;
+      }
+
+      .login-link a {
+        color: #c1bfb4;
+        text-decoration: none;
+        transition: color 0.3s;
+        font-size: 14px;
+      }
+
+      .login-link a:hover {
+        color: #fff;
+      }
+
       /* Responsive design */
       @media (max-width: 480px) {
         .login-box {
@@ -186,9 +214,9 @@
   <body>
     <div class="login-box">
       <!-- Support Hub Title -->
-      <div class="support-title">Your Support Hub</div>
+      <div class="support-title">Support Central</div>
 
-      <h2>Customer Login</h2>
+      <h3>Customer Login</h3>
       <form method="POST">
         {% csrf_token %}
         <div class="user-box">
@@ -207,9 +235,11 @@
           Login
         </a>
       </form>
-      <p>
+
+      <!-- Register Link with Vertical Spacing -->
+      <div class="login-link">
         Don't have an account? <a href="{% url 'user_register' %}">Register here</a>
-      </p>
+      </div>
     </div>
   </body>
 </html>
