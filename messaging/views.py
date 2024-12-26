@@ -17,6 +17,7 @@ from django.contrib.auth import get_user_model
 
 User = get_user_model()  # Use the custom user model
 
+@login_required
 def view_user_messages(request, user_id):
     user = get_object_or_404(User, id=user_id)
     messages = Message.objects.filter(sender=user) | Message.objects.filter(receiver=user)
@@ -27,8 +28,8 @@ def view_user_messages(request, user_id):
 
     return render(request, 'messaging/view_user_messages.html', {'user': user, 'messages': messages})
 
-def home(request):
-    return render(request, 'messaging/home.html') 
+def dashboard(request):
+    return render(request, 'messaging/dashboard.html') 
 
 def edit_user(request, user_id):
     user = get_object_or_404(User, id=user_id)
@@ -67,7 +68,7 @@ def admin_login(request):
         if form.is_valid():
             user = form.get_user()
             login(request, user)
-            return redirect('home')
+            return redirect('dashboard')
     else:
         form = AuthenticationForm()
     return render(request, 'messaging/login.html', {'form': form})
@@ -77,26 +78,46 @@ def admin_logout(request):
     logout(request)
     return redirect('admin_login')
 
-# Send Message View
 @login_required
 def send_message(request, user_id=None):
-    if request.method == 'POST':
-        content = request.POST.get('content')
-
+    if user_id:
         try:
-            receiver = get_object_or_404(User, id=user_id)
+            receiver = User.objects.get(id=user_id)
+            # Fetch messages and order them in ascending order (oldest first)
+            messages = Message.objects.filter(sender=request.user, receiver=receiver) | Message.objects.filter(sender=receiver, receiver=request.user)
+            messages = messages.order_by('timestamp')  # Sort by timestamp in ascending order
+
+            # Decrypt the message content before displaying it
+            for message in messages:
+                message.content = message.get_decrypted_content()
+
+        except User.DoesNotExist:
+            return redirect('user_dashboard')
+
+        if request.method == 'POST':
+            content = request.POST.get('content')
+            if content:
+                message = Message(sender=request.user, receiver=receiver, content=content)
+                message.save()
+                return redirect('send_message', user_id=user_id)
+
+        return render(request, 'messaging/send_message.html', {'receiver': receiver, 'messages': messages})
+
+    # Similar handling for the case when no user_id is provided.
+
+    # If no user_id is provided, show a form to send a message to any user
+    if request.method == 'POST':
+        receiver_username = request.POST.get('receiver')
+        content = request.POST.get('content')
+        try:
+            receiver = User.objects.get(username=receiver_username)
+            message = Message(sender=request.user, receiver=receiver, content=content)
+            message.save()
+            return redirect('user_dashboard')  # Redirect to the dashboard after sending the message
         except User.DoesNotExist:
             return render(request, 'messaging/send_message.html', {'error': 'User not found'})
 
-        # Create and save the message (content encrypted automatically by middleware)
-        message = Message(sender=request.user, receiver=receiver, content=content)
-        message.save()
-
-        return redirect('admin_dashboard')  # Redirect after sending the message
-
-    # Preload the receiver's info if user_id is provided
-    receiver = get_object_or_404(User, id=user_id) if user_id else None
-    return render(request, 'messaging/send_message.html', {'receiver': receiver})
+    return render(request, 'messaging/send_message.html')
 
 # Message List View
 def message_list(request):
