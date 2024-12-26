@@ -18,23 +18,27 @@
 
       /* Navbar Styles */
       .navbar {
-        margin-bottom: 20px;
-      }
-
-      .navbar-brand {
-        font-size: 1.8rem;
-        font-weight: bold;
-      }
-
-      /* Sidebar Styles */
-      .sidebar {
-        height: 100vh;
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 250px;
         background-color: #343a40;
-        padding-top: 20px;
+      }
+
+      .navbar-nav .nav-link {
+        color: white;
+        font-size: 1.1rem;
+      }
+
+      .navbar-nav .nav-link:hover {
+        background-color: #007bff;
+      }
+
+      .content {
+        padding: 20px;
+      }
+
+      /* Sidebar Styles (Positioned at the top) */
+      .sidebar {
+        width: 100%;
+        background-color: #343a40;
+        padding: 10px 0;
       }
 
       .sidebar h3 {
@@ -57,7 +61,6 @@
 
       /* Content Styles */
       .content {
-        margin-left: 270px;
         padding: 40px;
       }
 
@@ -98,32 +101,47 @@
       /* Responsive Styles */
       @media (max-width: 768px) {
         .sidebar {
-          width: 100%;
-          height: auto;
-          position: relative;
+          padding: 10px;
         }
+
         .content {
-          margin-left: 0;
+          padding: 20px;
         }
       }
     </style>
   </head>
   <body>
-    <!-- Sidebar -->
-    <div class="sidebar">
-      <h3>Your Support Hub</h3>
-      <ul class="nav flex-column">
-        <li class="nav-item">
-          <a class="nav-link" href="{% url 'home' %}">Home</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link active" href="{% url 'admin_dashboard' %}">Dashboard</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="{% url 'admin_logout' %}">Logout</a>
-        </li>
-      </ul>
-    </div>
+    <!-- Sidebar (Now at the top) -->
+    <nav class="navbar navbar-expand-lg navbar-dark">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="{% url 'home' %}">Your Support Hub</a>
+        <a class="navbar-brand" href="{% url 'home' %}">Welcome Admin</a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNav"
+          aria-controls="navbarNav"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item">
+              <a class="nav-link active" href="{% url 'home' %}">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'admin_dashboard' %}">Dashboard</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'admin_logout' %}">Logout</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
 
     <!-- Main Content -->
     <div class="content">
@@ -134,24 +152,16 @@
         </div>
       </nav>
 
-      <!-- Welcome Message -->
-      <h2>Welcome to the Admin Dashboard</h2>
-      <p class="text-center">
-        Here, you can manage customer accounts, respond to inquiries, and review system logs. Use the navigation menu to access various sections of the admin panel.
-      </p>
-
       <!-- Mailbox Button -->
       <div class="text-center my-4">
         <a href="{% url 'view_user_messages' user.id %}" class="btn btn-info mailbox-btn">
           Go to Mailbox
         </a>
-        <p class="mt-2">Check and respond to customer inquiries in your mailbox.</p>
       </div>
 
       <!-- Users Section -->
-      <h3>All Registered Customers</h3>
+      <h3>All Customers</h3>
       {% if users %}
-      <p>Below is a list of all customers registered on the platform. You can manage their accounts by removing users or responding to their messages directly.</p>
       <div class="table-responsive">
         <table class="table table-bordered table-hover align-middle">
           <thead class="table-dark">
@@ -189,7 +199,7 @@
         </table>
       </div>
       {% else %}
-      <p class="no-messages">No users available. Check back later or use other features in the admin dashboard.</p>
+      <p class="no-messages">No users available.</p>
       {% endif %}
 
       <!-- Toggle Button for System Messages -->
@@ -203,7 +213,6 @@
       <div id="systemMessages" class="hidden">
         <h2 class="mt-5">System Message Logs</h2>
         {% if messages %}
-        <p>Review critical system notifications and logs below:</p>
         <ul class="list-unstyled">
           {% for message in messages %}
           <li class="message p-3 mb-3 shadow-sm bg-light rounded">
@@ -212,7 +221,7 @@
           {% endfor %}
         </ul>
         {% else %}
-        <p class="no-messages">No system messages available at the moment.</p>
+        <p class="no-messages">No system messages available.</p>
         {% endif %}
       </div>
     </div>

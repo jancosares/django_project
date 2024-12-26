@@ -17,12 +17,12 @@
     <style>
         /* Custom Styles */
         body {
-            background-color: #f8f9fa; /* Light background for the page */
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Clean and modern font */
+            font-family: 'Arial', sans-serif;
+            background-color: rgb(230, 255, 249); /* Updated background color */
         }
 
         .container {
-            max-width: 800px; /* Limit the width of the container */
+            max-width: 600px; /* Limit the width of the container */
             padding: 30px;
             margin-top: 50px; /* Add some top margin for spacing */
             background-color: #fff; /* White background for the form */
@@ -31,7 +31,7 @@
         }
 
         h2 {
-            color: #343a40; /* Dark text color for heading */
+            color: rgb(16, 164, 147); /* Updated text color for heading */
             font-weight: 600;
             font-size: 32px;
             margin-bottom: 20px;
@@ -50,15 +50,15 @@
         }
 
         .form-group input:focus, .form-group textarea:focus {
-            border-color: #007bff; /* Highlight border color when focused */
+            border-color: rgb(16, 164, 147); /* Updated focus border color */
             outline: none;
-            box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+            box-shadow: 0 0 5px rgba(16, 164, 147, 0.5);
         }
 
         .btn-primary {
             width: 100%; /* Full-width button */
-            padding: 12px;
-            background-color: #007bff;
+            padding: 8px;
+            background-color: rgb(16, 164, 147); /* Updated button background color */
             border: none;
             font-size: 1.1rem;
             font-weight: 600;
@@ -67,7 +67,7 @@
         }
 
         .btn-primary:hover {
-            background-color: #0056b3; /* Darker shade for hover effect */
+            background-color: rgb(13, 131, 118); /* Slightly darker hover effect */
         }
 
         .alert {
@@ -108,7 +108,7 @@
 <body>
 
 <div class="container">
-    <h2></i> Send a message</h2>
+    <h2></i> Send a Message</h2>
 
     <!-- Error Message (if any) -->
     {% if error %}
